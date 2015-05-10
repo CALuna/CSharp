@@ -733,7 +733,7 @@ define(function (require, exports, module) {
             terms.push(elem.name);   
 
             
-            // CAL Allow property gen
+            // allow property gen
             if(options.useProp)
             {
 
@@ -784,7 +784,7 @@ define(function (require, exports, module) {
     CsharpCodeGenerator.prototype.writeDoc = function (codeWriter, text, options) {
 
         var i, len, lines;
-        // CAL
+
         if (options.csharpDoc && _.isString(text) && text.length) {
             console.log("write Doc");
             lines = text.trim().split("\n");
