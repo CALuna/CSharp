@@ -41,6 +41,12 @@ define(function (require, exports, module) {
             type: "Check",
             default: false
         },
+        "csharp.gen.useProp": {
+            text: "Use Property for Attribute",
+            description: "Use Property for Attribute instead of field.",
+            type: "Check",
+            default: false
+        },
         "csharp.gen.indentSpaces": {
             text: "Indent Spaces",
             description: "Number of spaces for indentation.",
@@ -91,6 +97,7 @@ define(function (require, exports, module) {
         return {
             csharpDoc     : PreferenceManager.get("csharp.gen.csharpDoc"),
             useTab        : PreferenceManager.get("csharp.gen.useTab"),
+            useProp        : PreferenceManager.get("csharp.gen.useProp"),
             indentSpaces  : PreferenceManager.get("csharp.gen.indentSpaces")
         };
     }

@@ -27,13 +27,13 @@
 define(function (require, exports, module) {
     "use strict";
 
-    var Repository     = app.getModule("core/Repository"),
+    var Repository = app.getModule("core/Repository"),
         ProjectManager = app.getModule("engine/ProjectManager"),
-        Engine         = app.getModule("engine/Engine"),
-        FileSystem     = app.getModule("filesystem/FileSystem"),
-        FileUtils      = app.getModule("file/FileUtils"),
-        Async          = app.getModule("utils/Async"),
-        UML            = app.getModule("uml/UML");
+        Engine     = app.getModule("engine/Engine"),
+        FileSystem = app.getModule("filesystem/FileSystem"),
+        FileUtils  = app.getModule("file/FileUtils"),
+        Async      = app.getModule("utils/Async"),
+        UML        = app.getModule("uml/UML");
 
     var CodeGenUtils = require("CodeGenUtils");
 
@@ -718,7 +718,7 @@ define(function (require, exports, module) {
     CsharpCodeGenerator.prototype.writeMemberVariable = function (codeWriter, elem, options) {
 
         if (elem.name.length > 0) {
-            var terms = [];
+            var terms = []; 
             // doc
             this.writeDoc(codeWriter, elem.documentation, options);
             // modifiers
@@ -728,13 +728,27 @@ define(function (require, exports, module) {
             }
             // type
             terms.push(this.getType(elem));
+
             // name
-            terms.push(elem.name);
-            // initial value
-            if (elem.defaultValue && elem.defaultValue.length > 0) {
-                terms.push("= " + elem.defaultValue);
+            terms.push(elem.name);   
+
+            
+            // CAL Allow property gen
+            if(options.useProp)
+            {
+
+                terms.push("{ get; set; }");
+                codeWriter.writeLine(terms.join(" ") );
+            }else{
+
+                // initial value
+                if (elem.defaultValue && elem.defaultValue.length > 0) {
+                    terms.push("= " + elem.defaultValue);
+                }  
+                codeWriter.writeLine(terms.join(" ") + ";");
             }
-            codeWriter.writeLine(terms.join(" ") + ";");
+          
+            
         }
     };
 
@@ -770,7 +784,8 @@ define(function (require, exports, module) {
     CsharpCodeGenerator.prototype.writeDoc = function (codeWriter, text, options) {
 
         var i, len, lines;
-        if (options.csharpDoc && _.isString(text)) {
+        // CAL
+        if (options.csharpDoc && _.isString(text) && text.length) {
             console.log("write Doc");
             lines = text.trim().split("\n");
             codeWriter.writeLine("/**");
